@@ -1,10 +1,11 @@
 #include <pwvf.h>
 #include <malloc.h>
+#include <string.h>
 
 int pwvfIsMagicBytes(unsigned char bytes[4])
 {
     unsigned char i = 0;
-    return (bytes[i++] == PWVFMagicBytes[i++]) && (bytes[i++] == PWVFMagicBytes[i++]) && (bytes[i++] == PWVFMagicBytes[i++]) && (bytes[i++] == PWVFMagicBytes[i++]);
+    return (bytes[i++] == PWVFMagicBytes[i]) && (bytes[i++] == PWVFMagicBytes[i]) && (bytes[i++] == PWVFMagicBytes[i]) && (bytes[i++] == PWVFMagicBytes[i]);
 };
 
 int pwvfMakeContext(PWVF_context_t *ctx, unsigned char *data, unsigned long dataLength)
@@ -31,7 +32,7 @@ unsigned long long __pwvf_getRLE8Size(register unsigned long *data, register uns
     register unsigned long i = size;
     while(i-=2)
         if(i > size)
-            return returnValue
+            return returnValue;
         else returnValue += data[i];
     return returnValue;
 };
@@ -41,21 +42,21 @@ typedef struct {
     unsigned *data;
 } __pwvf_rle8_context;
 
-__pwvf_rle8_context *__pwvf_doRLE8(register unsigned long *data, register unsigned long datasize)
+__pwvf_rle8_context *__pwvf_doRLE8(register unsigned long *datain, register unsigned long datasize)
 {
-    register unsigned *data = malloc(__pwvf_getRLE8Size(data, datasize));
+    register unsigned *data = malloc(__pwvf_getRLE8Size(datain, datasize));
     register unsigned long processedDataSize = 0;
-    register unsigned long i = ctx->LZMA_data_length>>2; /* Division Algo for powers of 2 */
+    register unsigned long i = datasize>>2; /* Division Algo for powers of 2 */
     register unsigned long tmp = 0;
     while(i-=2)
     {
-        tmp = data[i+1];
-        memset((void *)(data + processedDataSize), tmp, data[i]);
+        tmp = datain[i+1];
+        memset((void *)(datain + processedDataSize), tmp, datain[i]);
     };
     
     __pwvf_rle8_context returnVal;
-    returnVal->data = data;
-    returnVal->size = processedDataSize;
+    returnVal.data = datain;
+    returnVal.size = processedDataSize;
     return &returnVal;
 };
 
@@ -81,8 +82,8 @@ int pwvfParseContext(register PWVF_context_t *ctx, register unsigned short block
         data[i+2] = ctx->LZMA_dict_data[(ctx->LZMA_data[i]*4)+2];
         data[i+3] = ctx->LZMA_dict_data[(ctx->LZMA_data[i]*4)+3];
     };
-    __pwvf_rle8_context *raw = __pwvf_rle8_context(data, dataSize);
-    ctx->decodedData = raw->data;
+    __pwvf_rle8_context *raw = __pwvf_doRLE8(data, dataSize);
+    ctx->decodedData = (unsigned int *)raw->data;
     ctx->decodedDataLength = raw->size;
     return 0;
 };
