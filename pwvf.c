@@ -41,9 +41,9 @@ typedef struct {
     unsigned *data;
 } __pwvf_rle8_context;
 
-__pwvf_rle8_context *__pwvf_doRLE8(register unsigned long *data, register unsigned long size)
+__pwvf_rle8_context *__pwvf_doRLE8(register unsigned long *data, register unsigned long datasize)
 {
-    register unsigned *data = malloc(__pwvf_getRLE8Size(data, size));
+    register unsigned *data = malloc(__pwvf_getRLE8Size(data, datasize));
     register unsigned long processedDataSize = 0;
     register unsigned long i = ctx->LZMA_data_length>>2; /* Division Algo for powers of 2 */
     register unsigned long tmp = 0;
@@ -55,7 +55,7 @@ __pwvf_rle8_context *__pwvf_doRLE8(register unsigned long *data, register unsign
     
     __pwvf_rle8_context returnVal;
     returnVal->data = data;
-    returnVal->
+    returnVal->size = processedDataSize;
     return &returnVal;
 };
 
@@ -81,7 +81,8 @@ int pwvfParseContext(register PWVF_context_t *ctx, register unsigned short block
         data[i+2] = ctx->LZMA_dict_data[(ctx->LZMA_data[i]*4)+2];
         data[i+3] = ctx->LZMA_dict_data[(ctx->LZMA_data[i]*4)+3];
     };
-    ctx->decodedData = data;
-    ctx->decodedDataLength = dataSize;
+    __pwvf_rle8_context *raw = __pwvf_rle8_context(data, dataSize);
+    ctx->decodedData = raw->data;
+    ctx->decodedDataLength = raw->size;
     return 0;
 };
