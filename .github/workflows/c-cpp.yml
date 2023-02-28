@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: build
-      run: ./build.sh
+      run: sudo apt install llvm clang; bash ./build.sh
