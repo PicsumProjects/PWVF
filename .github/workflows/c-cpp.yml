@@ -24,3 +24,5 @@ jobs:
           files: |
             *.c
             *.h
+            LICENSE
+            pwvf.*
