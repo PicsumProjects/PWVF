@@ -1,4 +1,4 @@
-/* You Can Use This Code So Long As You Don't Plagiarize It And Don't Remove This Notice Public License, YCUTCSLAYDPIADRTNPL. Made By Picsum Authors*/
+/* You Can Use This Code So Long As You Don't Plagiarize It And Don't Remove This Notice And There's No Warranty or Liability For What You Do With This Code Public License, YCUTCSLAYDPIADRTNATNWoLFWYDWTCPL (aka MIT License) Made By Picsum Authors*/
 #ifndef PWVF
 #define PWVF
 
