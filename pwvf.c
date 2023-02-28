@@ -1,6 +1,6 @@
 #include <pwvf.h>
-#include <malloc.h>
-#include <string.h>
+void *malloc(unsigned long size);
+void *memset(void *str, int c, size_t n);
 
 int pwvfIsMagicBytes(unsigned char bytes[4])
 {
