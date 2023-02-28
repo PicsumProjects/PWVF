@@ -1,1 +1,1 @@
-clang -O3 pwvf.c -I./ -o PWVF.so
+clang -O3 -shared pwvf.c -I./ -o PWVF.so
