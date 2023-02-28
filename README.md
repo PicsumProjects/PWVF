@@ -17,7 +17,7 @@ Data (size is width * height * stride, first compressed with RLE8, then LZMA)
 RLE: (1 byte for count, another byte for the data)
 LZMA: (length of dictionary in 4 bytes, count of elements in dicionary in 4 bytes, count of elements amount of LZMA item, then the LZMA data)
 
-LZMA item: 4 bytes, anything
+LZMA item: 16 bytes, anything
 
 LZMA data: n LZMA blocks
 
